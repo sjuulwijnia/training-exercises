@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using Entities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
 using Xunit;
 
 namespace RestAPI.Tests.Controllers
@@ -12,20 +15,23 @@ namespace RestAPI.Tests.Controllers
             _factory = factory;
         }
 
-        [Theory]
-        [InlineData("/persons")]
-        [InlineData("/persons/5")]
-        public async void TestGetAll(string url)
+        [Fact]
+        public async void TestGetAll()
         {
             // Arrange
             var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync("/persons");
 
             // Assert
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var responseAsString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<Person>>(responseAsString);
+            Assert.NotNull(result);
+            Assert.True(result.Count > 0);
         }
     }
 }
