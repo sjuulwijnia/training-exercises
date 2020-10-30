@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
-using Repository.InMemory;
-using Repository.Interfaces;
-using Microsoft.AspNetCore.TestHost;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Repository.Interfaces;
+using RestAPI.Tests.Mocks;
 
 namespace RestAPI.Tests
 {
@@ -13,7 +13,7 @@ namespace RestAPI.Tests
         {
             builder.ConfigureTestServices(services =>
             {
-                services.AddTransient<IPersonRepository, PersonInMemoryFakedRepository>();
+                services.AddTransient<IPersonRepository, MockPersonInMemoryRepository>();
             });
 
             base.ConfigureWebHost(builder);

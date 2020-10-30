@@ -4,14 +4,14 @@ using Repository.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Repository.InMemory
+namespace RestAPI.Tests.Mocks
 {
-    public class PersonInMemoryFakedRepository : IPersonRepository
+    public class MockPersonInMemoryRepository : IPersonRepository
     {
         private static readonly PersonFaker _personFaker;
         private static readonly IList<Person> _persons;
 
-        static PersonInMemoryFakedRepository()
+        static MockPersonInMemoryRepository()
         {
             _personFaker = new PersonFaker();
             _persons = _personFaker.Generate(100);

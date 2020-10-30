@@ -1,5 +1,8 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RestAPI.Controllers;
+using RestAPI.Tests.Mocks;
 using System.Collections.Generic;
 using System.Net;
 using Xunit;
@@ -16,7 +19,24 @@ namespace RestAPI.Tests.Controllers
         }
 
         [Fact]
-        public async void TestGetAll()
+        public void TestGetAllController()
+        {
+            // Arrange
+            var repository = new MockPersonInMemoryRepository();
+            var controller = new PersonController(repository);
+
+            // Act
+            var response = controller.GetAll() as OkObjectResult;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.NotNull(response.Value);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.Value is List<Person>);
+        }
+
+        [Fact]
+        public async void TestGetAllFactory()
         {
             // Arrange
             var client = _factory.CreateClient();
